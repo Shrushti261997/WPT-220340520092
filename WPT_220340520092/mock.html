@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Book</title>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+	<script>
+		$(()=>{
+
+			function showalldata(){
+				let ajaxpars={
+					data:{},
+					url:"http://localhost:808/displayitems",
+					type:'get',
+					dataType:'json',
+					success:(dgbs)=>{
+						items =dgbs;
+
+						let itemcontents ="";
+						for(let i=0;i<items.length;i++)
+						{
+							itemcontents += "<br/>" +items[i].bookid + " "+ items[i].bookname + " "+ items[i].bookprice;
+						}
+						$("#data").html(itemcontents);
+
+						},
+						error:(error)=>{
+							console.log("server not found");
+						}
+					};
+					$.ajax(ajaxpars);
+				}
+				showalldata();
+			
+
+			$("#add").click(()=>{
+
+				console.log("Add is working");
+
+				let iteminsert = {itemno:$("#bookid").val(), itemname:$('#bookname'),itemprice: $("#bookprice").val()}
+				console.log(iteminsert);
+
+				let ajaxpars = {
+
+					data:iteminsert,
+					url:'http://localhost:808/insertdata',
+					type:'get',
+					dataType:'json',
+					success:(out)=>{
+						console.log("server Connected "+ out);
+						if(out){
+							$(msg1).html('Book added Successfully');
+						}
+						else{
+							$(msg1).html('Book not added Successfully');
+						}
+					},
+					error:(error)=>{
+						console.log("Server not connected");
+					}
+
+				}//ajazpars
+				$.ajax(ajaxpars);
+				showalldata();
+
+
+
+			});//add
+
+		});//dom 
+
+
+
+	</script>
+
+</head>
+<body>
+	Book id : <input type="text" placeholder="Enter book id" id="bookid">
+	<span id="msg1">Message</span><br><br>
+	Book Name : <input type="text" placeholder="Enter book name" id="bookname"><br><br>
+	Price : <input type="text" placeholder="Enter book price" id="bookprice"><br><br>
+	<button id="add">Add a Book</button><br><br>
+	<p id="msg2">Show all book here</p>
+
+
+</body>
+</html>
+
+
+
+
+
+<!-- <html>
+<body>
+
+<form action="poc2" method="get">
+<Br/>whocares<input type="text" name="whocares"/>
+<input type="submit" value="get"/>
+</form>
+
+
+<form action="poc1" method="post">
+<Br/>whocares<input type="text" name="whocares"/>
+<input type="submit" value="post"/>
+</form>
+
+<button id="b2"> jquery works</button>
+
+
+</body>
+
+<script src="jquery-3.5.1.min.js"></script>
+<script>//our scrip will come here 
+
+
+
+$(document).ready(function()
+{
+console.log("no more sins");
+$("#b2").click(function () 
+	{ 
+		//console.log("jquery works");
+		alert("jquery works")
+	});
+	
+});
+
+
+</script>
+
+
+</html> -->
